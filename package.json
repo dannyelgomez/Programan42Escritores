@@ -1,0 +1,23 @@
+{
+    "name": "programan42escritores",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "nodemon index",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/dannyelgomez/Programan42Escritores.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/dannyelgomez/Programan42Escritores/issues"
+    },
+    "homepage": "https://github.com/dannyelgomez/Programan42Escritores#readme",
+    "dependencies": {
+        "express": "^4.17.1"
+    }
+}
