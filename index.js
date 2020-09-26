@@ -1,3 +1,4 @@
+const { request } = require('express');
 const express = require('express');
 const app = express();
 app.use(express.json());
@@ -5,6 +6,18 @@ const port = 3000;
 
 let autores = [];
 
+var validarExistenciaAutor = function(req, res, next) {
+    const autorId = parseInt(req.params.id);
+    const autor = autores.find(autor => autor.id === autorId)
+    if (!autor) {
+        return res.status(404).send('autor not found')
+    }
+
+    req.autorEncontrado = autor
+    next();
+};
+
+/* app.use(validarExistenciaAutor); */
 
 /* Escritores Genera un array y que cada posición contenga un elemento tipo objeto como el siguiente: */
 
@@ -34,32 +47,49 @@ app.post('/autores', (req, res) => {
 /* /autores/:id
 GET: devuelve el autor con el id indicado */
 
-app.get('/autores/:id', (req, res) => {
-    const autorId = parseInt(req.params.id);
+app.get('/autores/:id', validarExistenciaAutor, (req, res) => {
+    /* const autorId = parseInt(req.params.id);
     const autor = autores.find(autor => autor.id === autorId)
     if (!autor) {
         res.status(404).send('autor not found')
-    }
-    res.send(autor);
+    } */
+    res.send(req.autorEncontrado);
 })
 
 
 /* DELETE: elimina el autor con el id indicado */
 
-app.delete('/autores/:id', (req, res) => {
-    const autorId = parseInt(req.params.id);
+app.delete('/autores/:id', validarExistenciaAutor, (req, res) => {
+    /* const autorId = parseInt(req.params.id);
     const autor = autores.find(autor => autor.id === autorId)
     if (!autor) {
         res.status(404).send('Autor not found')
-    }
-    const index = autores.indexOf(autor)
+    } */
+
+    const index = autores.indexOf(req.autorEncontrado)
     autores.splice(index, 1);
     res.send('Autor eliminado');
 })
 
 /* PUT: modifica el autor con el id indicado */
 
+app.put('/autores/:id', validarExistenciaAutor, (req, res) => {
+    /* const autorId = parseInt(req.params.id);
+    const autor = autores.find(autor => autor.id === autorId)
+    if (!autor) {
+        res.status(404).send('Autor not found');
+        return
+    } */
+    req.autorEncontrado.nombre = req.body.nombre;
+    req.autorEncontrado.apellido = req.body.apellido;
+    req.autorEncontrado.fechaDeNacimiento = req.body.fechaDeNacimiento;
+    req.autorEncontrado.libros = req.body.libros;
+
+    res.send('El autor con el id indicado fue modificado');
+})
+
 /* Valida a través de un middleware que el escritor exista en tu array */
+
 
 
 
