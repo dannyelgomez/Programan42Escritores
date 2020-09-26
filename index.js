@@ -34,8 +34,28 @@ app.post('/autores', (req, res) => {
 /* /autores/:id
 GET: devuelve el autor con el id indicado */
 
+app.get('/autores/:id', (req, res) => {
+    const autorId = parseInt(req.params.id);
+    const autor = autores.find(autor => autor.id === autorId)
+    if (!autor) {
+        res.status(404).send('autor not found')
+    }
+    res.send(autor);
+})
+
 
 /* DELETE: elimina el autor con el id indicado */
+
+app.delete('/autores/:id', (req, res) => {
+    const autorId = parseInt(req.params.id);
+    const autor = autores.find(autor => autor.id === autorId)
+    if (!autor) {
+        res.status(404).send('Autor not found')
+    }
+    const index = autores.indexOf(autor)
+    autores.splice(index, 1);
+    res.send('Autor eliminado');
+})
 
 /* PUT: modifica el autor con el id indicado */
 
