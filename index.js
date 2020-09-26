@@ -98,8 +98,17 @@ app.put('/autores/:id', validarExistenciaAutor, (req, res) => {
 /autores/:id/libros
 GET: devuelve todos los libros de un autor */
 
+app.get('/autores/:id/libros', validarExistenciaAutor, (req, res) => {
+    /* const autorId = parseInt(req.params.id);
+    const autor = autores.find(autor => autor.id === autorId)
+    if (!autor) {
+        res.status(404).send('autor not found')
+    } */
+    res.send(req.autorEncontrado.libros);
+})
 
 /* POST: agrega un nuevo libro al autor */
+
 
 
 /* Utiliza el mismo middleware para verificar que le autor exista */
