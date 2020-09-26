@@ -149,6 +149,21 @@ app.get('/autores/:id/libros/:idLibro', validarExistenciaAutor, (req, res) => {
 
 /* PUT: modifica el libro con el id indicado del autor */
 
+app.put('/autores/:id/libros/:idLibro', validarExistenciaAutor, (req, res) => {
+
+    const libroId = parseInt(req.params.idLibro);
+    const libro = req.autorEncontrado.libros.find(libro => libro.id === libroId)
+    if (!libro) {
+        res.status(404).send('libro not found')
+        return
+    }
+    libro.titulo = req.body.titulo;
+    libro.descripcion = req.body.descripcion;
+    libro.anioPublicaion = req.body.anioPublicaion;
+
+    res.send('El libro con el id indicado fue modificado');
+})
+
 /* DELETE: eliminar el libro con el id indicado del autor */
 
 /* Crea un nuevo middleware para verificar la existencia del libro y también que corresponda al autor */
