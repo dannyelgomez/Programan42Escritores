@@ -1,0 +1,39 @@
+[{
+        "id": 1,
+        "nombre": "Jorge Luis",
+        "apellido": "Borges",
+        "fechaDeNacimiento": "24/08/1899",
+        "libros": [{
+                "id": 1,
+                "titulo": "Ficciones",
+                "descripcion": "Se trata de uno de sus más...",
+                "anioPublicacion": 1944
+            },
+            {
+                "id": 2,
+                "titulo": "El Aleph",
+                "descripcion": "Otra recopilación de cuentos...",
+                "anioPublicacion": 1949
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "nombre": "Gabriel",
+        "apellido": "García Márquez",
+        "fechaDeNacimiento": "12/07/1930",
+        "libros": [{
+                "id": 1,
+                "titulo": "cien anios de soledad",
+                "descripcion": "Se trata de uno de sus más...",
+                "anioPublicacion": 1970
+            },
+            {
+                "id": 2,
+                "titulo": "Crónina de una muerte",
+                "descripcion": "Otra recopilación de cuentos...",
+                "anioPublicacion": 1985
+            }
+        ]
+    }
+]
