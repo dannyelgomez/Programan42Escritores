@@ -109,12 +109,43 @@ app.get('/autores/:id/libros', validarExistenciaAutor, (req, res) => {
 
 /* POST: agrega un nuevo libro al autor */
 
+app.get('/autores/:id/libros', validarExistenciaAutor, (req, res) => {
+    /* const autorId = parseInt(req.params.id);
+    const autor = autores.find(autor => autor.id === autorId)
+    if (!autor) {
+        res.status(404).send('autor not found')
+    } */
+
+    const libro = {
+        id: autores.length + 1,
+        titulo: req.body.titulo,
+        descripcion: req.body.descripcion,
+        anioPublicaion: req.body.fechaDeNacimiento,
+    };
+
+    req.autorEncontrado.libros.push(libro);
+    res.send(req.autorEncontrado);
+})
 
 
-/* Utiliza el mismo middleware para verificar que le autor exista */
+/* Utiliza el mismo middleware para verificar que el autor exista */
+
+/* OK */
 
 /* /autores/:id/libros/:idLibro
 GET: devuelve el libro con el id indicado del autor */
+
+app.get('/autores/:id/libros/:idLibro', validarExistenciaAutor, (req, res) => {
+
+    const libroId = parseInt(req.params.idLibro);
+    const libro = req.autorEncontrado.libros.find(libro => libro.id === libroId)
+    if (!libro) {
+        res.status(404).send('libro not found')
+    }
+
+    res.send(libro);
+})
+
 
 /* PUT: modifica el libro con el id indicado del autor */
 
