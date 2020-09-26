@@ -166,6 +166,20 @@ app.put('/autores/:id/libros/:idLibro', validarExistenciaAutor, (req, res) => {
 
 /* DELETE: eliminar el libro con el id indicado del autor */
 
+app.delete('/autores/:id/libros/:idLibro', validarExistenciaAutor, (req, res) => {
+
+    const libroId = parseInt(req.params.idLibro);
+    const libro = req.autorEncontrado.libros.find(libro => libro.id === libroId)
+    if (!libro) {
+        res.status(404).send('libro not found')
+        return
+    }
+
+    const index = req.autorEncontrado.libros.indexOf(libro)
+    req.autorEncontrado.libros.splice(index, 1);
+    res.send('El libro con el id indicado fue eliminado');
+})
+
 /* Crea un nuevo middleware para verificar la existencia del libro y también que corresponda al autor */
 
 app.listen(port, () => {
