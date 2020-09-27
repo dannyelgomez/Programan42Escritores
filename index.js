@@ -17,6 +17,21 @@ var validarExistenciaAutor = function(req, res, next) {
     next();
 };
 
+
+var validarExistenciaLibro = function(req, res, next) {
+    const libroId = parseInt(req.params.idLibro);
+    const libro = req.autorEncontrado.libros.find(libro => libro.id === libroId)
+    if (!libro) {
+        res.status(404).send('libro not found')
+        return
+    }
+
+    req.libroEncontrado = libro
+    next();
+};
+
+
+
 /* app.use(validarExistenciaAutor); */
 
 /* Escritores Genera un array y que cada posición contenga un elemento tipo objeto como el siguiente: */
@@ -135,28 +150,31 @@ app.get('/autores/:id/libros', validarExistenciaAutor, (req, res) => {
 /* /autores/:id/libros/:idLibro
 GET: devuelve el libro con el id indicado del autor */
 
-app.get('/autores/:id/libros/:idLibro', validarExistenciaAutor, (req, res) => {
+app.get('/autores/:id/libros/:idLibro', [validarExistenciaAutor, validarExistenciaLibro], (req, res) => {
 
-    const libroId = parseInt(req.params.idLibro);
+    /* const libroId = parseInt(req.params.idLibro);
     const libro = req.autorEncontrado.libros.find(libro => libro.id === libroId)
     if (!libro) {
         res.status(404).send('libro not found')
-    }
+    } */
 
-    res.send(libro);
+    res.send(req.libroEncontrado);
 })
 
 
 /* PUT: modifica el libro con el id indicado del autor */
 
-app.put('/autores/:id/libros/:idLibro', validarExistenciaAutor, (req, res) => {
+app.put('/autores/:id/libros/:idLibro', [validarExistenciaAutor, validarExistenciaLibro], (req, res) => {
 
-    const libroId = parseInt(req.params.idLibro);
-    const libro = req.autorEncontrado.libros.find(libro => libro.id === libroId)
-    if (!libro) {
-        res.status(404).send('libro not found')
-        return
-    }
+    /*  const libroId = parseInt(req.params.idLibro);
+     const libro = req.autorEncontrado.libros.find(libro => libro.id === libroId)
+     if (!libro) {
+         res.status(404).send('libro not found')
+         return
+     } */
+
+    const libro = req.libroEncontrado;
+
     libro.titulo = req.body.titulo;
     libro.descripcion = req.body.descripcion;
     libro.anioPublicaion = req.body.anioPublicaion;
@@ -166,14 +184,16 @@ app.put('/autores/:id/libros/:idLibro', validarExistenciaAutor, (req, res) => {
 
 /* DELETE: eliminar el libro con el id indicado del autor */
 
-app.delete('/autores/:id/libros/:idLibro', validarExistenciaAutor, (req, res) => {
+app.delete('/autores/:id/libros/:idLibro', [validarExistenciaAutor, validarExistenciaLibro], (req, res) => {
 
-    const libroId = parseInt(req.params.idLibro);
+    /* const libroId = parseInt(req.params.idLibro);
     const libro = req.autorEncontrado.libros.find(libro => libro.id === libroId)
     if (!libro) {
         res.status(404).send('libro not found')
         return
-    }
+    } */
+
+    const libro = req.libroEncontrado;
 
     const index = req.autorEncontrado.libros.indexOf(libro)
     req.autorEncontrado.libros.splice(index, 1);
